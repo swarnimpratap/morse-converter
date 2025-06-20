@@ -2,53 +2,104 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Morse Code Converter</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    footer {
-      margin-top: 2rem;
-      text-align: center;
-      font-size: 0.95rem;
-      color: #555;
+    .convert-button {
+      background: linear-gradient(135deg, #ff4d4d, #cc0000);
+      color: white;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
     }
 
-    .insta-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      text-decoration: none;
-      color: #E1306C;
-      margin-top: 8px;
-    }
-
-    .insta-link img {
-      width: 20px;
-      height: 20px;
+    .convert-button:hover {
+      background: linear-gradient(135deg, #ff1a1a, #990000);
+      box-shadow: 0 0 25px rgba(255, 0, 0, 0.8);
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Morse Code Converter</h1>
-    
-    <textarea id="inputText" placeholder="Enter text or morse code..."></textarea>
-    
-    <div class="buttons">
-      <button onclick="textToMorse()">Text ➡ Morse</button>
-      <button onclick="morseToText()">Morse ➡ Text</button>
+
+    <div class="mini-button-container">
+      <button class="mini-button styled-button" onclick="pasteText()">📥 Paste</button>
     </div>
-    
+    <textarea id="inputText" placeholder="Enter text or morse code..."></textarea>
+
+    <div class="buttons">
+      <button class="styled-button convert-button" onclick="textToMorse()">Text ➞ Morse</button>
+      <button class="styled-button convert-button" onclick="morseToText()">Morse ➞ Text</button>
+    </div>
+
     <textarea id="outputText" readonly placeholder="Converted result..."></textarea>
+    <div class="mini-button-container">
+      <button class="mini-button styled-button" onclick="copyText()">📋 Copy</button>
+    </div>
 
     <footer>
       Developed by <strong>Swarnim Pratap Singh</strong><br>
-  <a class="insta-link" href="https://instagram.com/swarnim_pratap" target="_blank">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
-    @swarnim_pratap
-  </a>
-  <small>© 2025. All rights reserved. Unauthorized copying or distribution is prohibited.</small>    </footer>
+      <a class="insta-link" href="https://instagram.com/swarnim_pratap" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+        @swarnim_pratap
+      </a>
+      <small>© 2025. All rights reserved.</small>
+    </footer>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const morseCodeMap = {
+      'A': '.-',    'B': '-...',  'C': '-.-.',  'D': '-..',   'E': '.',
+      'F': '..-.',  'G': '--.',   'H': '....',  'I': '..',    'J': '.---',
+      'K': '-.-',   'L': '.-..',  'M': '--',    'N': '-.',    'O': '---',
+      'P': '.--.',  'Q': '--.-',  'R': '.-.',   'S': '...',   'T': '-',
+      'U': '..-',   'V': '...-',  'W': '.--',   'X': '-..-',  'Y': '-.--',
+      'Z': '--..',
+      '1': '.----', '2': '..---', '3': '...--', '4': '....-', '5': '.....',
+      '6': '-....', '7': '--...', '8': '---..', '9': '----.', '0': '-----',
+      ' ': '/'
+    };
+
+    const reverseMorseCodeMap = Object.fromEntries(
+      Object.entries(morseCodeMap).map(([k, v]) => [v, k])
+    );
+
+    function textToMorse() {
+      const input = document.getElementById("inputText").value.toUpperCase();
+      const output = input.split('').map(char => morseCodeMap[char] || '').join(' ');
+      document.getElementById("outputText").value = output;
+    }
+
+    function morseToText() {
+      const input = document.getElementById("inputText").value.trim();
+      const output = input.split(' ').map(code => reverseMorseCodeMap[code] || '').join('');
+      document.getElementById("outputText").value = output;
+    }
+
+    function copyText() {
+      const output = document.getElementById("outputText");
+      if (output.value.trim() === "") {
+        alert("Nothing to copy!");
+        return;
+      }
+      navigator.clipboard.writeText(output.value)
+        .then(() => alert("Copied to clipboard!"))
+        .catch(err => {
+          alert("Failed to copy!");
+          console.error(err);
+        });
+    }
+
+    function pasteText() {
+      navigator.clipboard.readText()
+        .then(text => {
+          document.getElementById("inputText").value = text;
+        })
+        .catch(err => {
+          alert("Failed to paste. Clipboard permissions may be blocked.");
+          console.error(err);
+        });
+    }
+  </script>
 </body>
 </html>
