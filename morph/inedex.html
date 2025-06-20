@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Morse Code Converter</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    .insta-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      text-decoration: none;
+      color: #E1306C;
+      margin-top: 8px;
+    }
+
+    .insta-link img {
+      width: 20px;
+      height: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Morse Code Converter</h1>
+    
+    <textarea id="inputText" placeholder="Enter text or morse code..."></textarea>
+    
+    <div class="buttons">
+      <button onclick="textToMorse()">Text ➡ Morse</button>
+      <button onclick="morseToText()">Morse ➡ Text</button>
+    </div>
+    
+    <textarea id="outputText" readonly placeholder="Converted result..."></textarea>
+
+    <footer>
+      Developed by <strong>Swarnim Pratap Singh</strong><br>
+  <a class="insta-link" href="https://instagram.com/swarnim_pratap" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+    @swarnim_pratap
+  </a>
+  <small>© 2025. All rights reserved. Unauthorized copying or distribution is prohibited.</small>    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
